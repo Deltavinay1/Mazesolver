@@ -1,4 +1,3 @@
-// --- DOM Elements ---
 const canvas = document.getElementById("mazeCanvas");
 const ctx = canvas.getContext("2d");
 const canvasContainer = document.getElementById("canvas-container");
@@ -10,14 +9,11 @@ const solveWallFollowerBtn = document.getElementById("solveWallFollowerBtn");
 const solveButtons = document.querySelectorAll(".solve-btn");
 const statusEl = document.getElementById("status");
 
-// --- Maze Configuration ---
-let width = 41; // Must be odd
-let height = 21; // Must be odd
+let width = 41;
+let height = 21;
 let cellSize;
 let maze;
 let isSolving = false;
-
-// --- Node Class (similar to C++ struct) ---
 class Node {
   constructor(y, x) {
     this.y = y;
@@ -33,14 +29,13 @@ class Node {
   }
 }
 
-// --- Maze Class ---
 class Maze {
   constructor(h, w) {
     this.height = h;
     this.width = w;
     this.grid = Array(h)
       .fill(null)
-      .map(() => Array(w).fill("#")); // '#' represents a wall
+      .map(() => Array(w).fill("#"));
     this.nodes = Array(h)
       .fill(null)
       .map((_, y) =>
@@ -52,7 +47,6 @@ class Maze {
     this.endNode = this.nodes[h - 2][w - 2];
   }
 
-  // Maze generation using recursive backtracking (Depth-First Search)
   generate() {
     const stack = [];
     const startY = 1,
@@ -68,7 +62,7 @@ class Maze {
       const [y, x] = stack[stack.length - 1];
 
       const dirs = [0, 1, 2, 3];
-      dirs.sort(() => Math.random() - 0.5); // Shuffle directions
+      dirs.sort(() => Math.random() - 0.5);
 
       let moved = false;
       for (const dir of dirs) {
@@ -82,8 +76,8 @@ class Maze {
           nx < this.width - 1 &&
           this.grid[ny][nx] === "#"
         ) {
-          this.grid[ny][nx] = " "; // Carve path
-          this.grid[y + dy[dir] / 2][x + dx[dir] / 2] = " "; // Carve wall
+          this.grid[ny][nx] = " ";
+          this.grid[y + dy[dir] / 2][x + dx[dir] / 2] = " ";
           stack.push([ny, nx]);
           moved = true;
           break;
@@ -95,10 +89,9 @@ class Maze {
       }
     }
     this.grid[1][1] = "S";
-    this.grid[this.height - 2][this.width - 2] = "E"; // End
+    this.grid[this.height - 2][this.width - 2] = "E";
   }
 
-  // --- Utility and Pathfinding Methods ---
   resetNodes() {
     for (let y = 0; y < this.height; y++) {
       for (let x = 0; x < this.width; x++) {
@@ -141,12 +134,10 @@ class Maze {
   }
 
   heuristic(a, b) {
-    // Manhattan distance
     return Math.abs(a.y - b.y) + Math.abs(a.x - b.x);
   }
 }
 
-// --- Drawing Functions ---
 function drawMaze(path = [], visited = new Set()) {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   const pathSet = new Set(path);
@@ -155,23 +146,23 @@ function drawMaze(path = [], visited = new Set()) {
     for (let x = 0; x < width; x++) {
       const node = maze.nodes[y][x];
       if (pathSet.has(node)) {
-        ctx.fillStyle = "#4f46e5"; // Final path color (indigo)
+        ctx.fillStyle = "#4f46e5";
       } else if (visited.has(node)) {
-        ctx.fillStyle = "rgba(239, 68, 68, 0.4)"; // Visited color (red, transparent)
+        ctx.fillStyle = "rgba(239, 68, 68, 0.4)";
       } else {
         switch (maze.grid[y][x]) {
           case "#":
             ctx.fillStyle = "#1f2937";
-            break; // Wall (darker gray)
+            break;
           case "S":
             ctx.fillStyle = "#10b981";
-            break; // Start (emerald)
+            break;
           case "E":
             ctx.fillStyle = "#ef4444";
-            break; // End (red)
+            break;
           default:
             ctx.fillStyle = "#4b5563";
-            break; // Path (gray)
+            break;
         }
       }
       ctx.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
@@ -179,7 +170,6 @@ function drawMaze(path = [], visited = new Set()) {
   }
 }
 
-// --- Animation Logic ---
 async function animateAlgorithm(solver) {
   isSolving = true;
   toggleButtons(false);
@@ -191,19 +181,17 @@ async function animateAlgorithm(solver) {
 
   path = solver(visitedInOrder);
 
-  // Animate visited nodes
   for (let i = 0; i < visitedInOrder.length; i++) {
     const visitedSet = new Set(visitedInOrder.slice(0, i + 1));
     drawMaze([], visitedSet);
-    await new Promise((r) => setTimeout(r, 0)); // Short delay for fast animation
+    await new Promise((r) => setTimeout(r, 0));
   }
 
-  // Animate final path
   const visitedSet = new Set(visitedInOrder);
   for (let i = 0; i < path.length; i++) {
     const currentPath = path.slice(0, i + 1);
     drawMaze(currentPath, visitedSet);
-    await new Promise((r) => setTimeout(r, 15)); // Slightly longer delay for path
+    await new Promise((r) => setTimeout(r, 15));
   }
 
   if (path.length > 0) {
@@ -212,12 +200,11 @@ async function animateAlgorithm(solver) {
     statusEl.textContent = "No path found!";
   }
   isSolving = false;
-  toggleButtons(true, false); // Re-enable generate/reset, but not solve
+  toggleButtons(true, false);
 }
 
-// --- Solver Implementations ---
 function solveDijkstra(visitedInOrder) {
-  const pq = [maze.startNode]; // Simple array as priority queue
+  const pq = [maze.startNode];
   maze.startNode.gCost = 0;
 
   while (pq.length > 0) {
@@ -278,7 +265,7 @@ function solveAStar(visitedInOrder) {
 function solveWallFollower(visitedInOrder) {
   let path = [];
   let current = maze.startNode;
-  let dir = 1; // 0: up, 1: right, 2: down, 3: left
+  let dir = 1;
 
   const dx = [0, 1, 0, -1];
   const dy = [-1, 0, 1, 0];
@@ -306,13 +293,12 @@ function solveWallFollower(visitedInOrder) {
       dir = (dir + 1) % 4;
     }
 
-    if (path.length > maze.width * maze.height) return []; // Stuck in a loop
+    if (path.length > maze.width * maze.height) return [];
   }
   path.push(maze.endNode);
   return path;
 }
 
-// --- UI and Event Handlers ---
 function toggleButtons(enable, enableSolve = true) {
   generateBtn.disabled = !enable;
   resetBtn.disabled = !enable;
@@ -339,7 +325,7 @@ function handleReset() {
 }
 
 function resizeCanvas() {
-  const containerWidth = canvasContainer.clientWidth - 20; // Some padding
+  const containerWidth = canvasContainer.clientWidth - 20;
   const containerHeight = canvasContainer.clientHeight - 20;
 
   const cellWidth = Math.floor(containerWidth / width);
@@ -355,7 +341,6 @@ function resizeCanvas() {
   }
 }
 
-// --- Initial Setup ---
 window.addEventListener("resize", resizeCanvas);
 
 generateBtn.addEventListener("click", handleGenerate);
@@ -368,6 +353,5 @@ solveWallFollowerBtn.addEventListener("click", () =>
   animateAlgorithm(solveWallFollower)
 );
 
-// Initial generation
 resizeCanvas();
 handleGenerate();
