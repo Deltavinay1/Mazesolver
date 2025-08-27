@@ -1,0 +1,142 @@
+/* General body styles */
+body {
+  font-family: "Inter", sans-serif;
+  background-color: #111827; /* bg-gray-900 */
+  color: #d1d5db; /* text-gray-200 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  padding: 1rem;
+  overflow: hidden;
+}
+
+/* Layout Containers */
+.container {
+  width: 100%;
+  max-width: 80rem; /* max-w-7xl */
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+@media (min-width: 1024px) {
+  /* lg breakpoint */
+  .container {
+    flex-direction: row;
+  }
+}
+
+.panel {
+  background-color: #1f2937; /* bg-gray-800 */
+  padding: 1.5rem; /* p-6 */
+  border-radius: 1rem; /* rounded-2xl */
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg */
+}
+
+.controls {
+  flex-shrink: 0;
+}
+
+@media (min-width: 1024px) {
+  /* lg breakpoint */
+  .controls {
+    width: 20rem; /* lg:w-80 */
+  }
+}
+
+.canvas-wrapper {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem; /* p-2 */
+}
+
+/* Text and UI Elements */
+.title {
+  font-size: 1.5rem; /* text-2xl */
+  font-weight: 700;
+  color: white;
+  margin-bottom: 1rem;
+}
+
+.subtitle {
+  color: #9ca3af; /* text-gray-400 */
+  margin-bottom: 1.5rem;
+  font-size: 0.875rem; /* text-sm */
+}
+
+.subtitle-h2 {
+  font-size: 1.125rem; /* text-lg */
+  font-weight: 600;
+  color: white;
+  margin-bottom: 0.75rem;
+}
+
+.divider {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  border-color: #374151; /* border-gray-700 */
+}
+
+.button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem; /* space-y-3 */
+}
+
+.status-box {
+  margin-top: 1.5rem;
+  text-align: center;
+  color: #9ca3af; /* text-gray-400 */
+  font-size: 0.875rem; /* text-sm */
+  height: 2.5rem; /* h-10 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(17, 24, 39, 0.5); /* bg-gray-900/50 */
+  border-radius: 0.5rem; /* rounded-lg */
+}
+
+/* Buttons */
+.btn {
+  width: 100%;
+  padding: 0.625rem 1rem; /* py-2.5 px-4 */
+  border-radius: 0.5rem; /* rounded-lg */
+  font-weight: 600; /* font-semibold */
+  transition: all 0.2s ease-in-out;
+  border: none;
+  cursor: pointer;
+}
+
+.btn:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px #374151, 0 0 0 4px #4f46e5; /* focus rings */
+}
+
+.btn-primary {
+  background-color: #4f46e5; /* indigo-600 */
+  color: white;
+}
+.btn-primary:hover {
+  background-color: #4338ca; /* indigo-700 */
+}
+
+.btn-secondary {
+  background-color: #4b5563; /* gray-600 */
+  color: white;
+}
+.btn-secondary:hover {
+  background-color: #374151; /* gray-700 */
+}
+
+.btn:disabled {
+  background-color: #6b7280; /* gray-500 */
+  cursor: not-allowed;
+  opacity: 0.7;
+}
