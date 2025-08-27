@@ -19,14 +19,18 @@ Animated Visualization: See the algorithms explore the maze in real-time, highli
 
 Responsive Design: The layout adapts to different screen sizes, making it usable on both desktop and mobile devices.
 
-## Screenshots
+## ## Screenshots
+
 Here's a glimpse of the maze solver in action:
 
-1. A Freshly Generated Maze
+**1. A Freshly Generated Maze**
+![A freshly generated maze](images/generated-maze.png)
 
-2. A* Algorithm in the Process of Solving
+**2. A* Algorithm in the Process of Solving**
+![A* algorithm solving the maze](images/solving-process.png)
 
-3. The Final Solved Path
+**3. The Final Solved Path**
+![The final solved path](images/final-path.png)
 
 ## How to Use
 Generate a Maze: Click the Generate New Maze button to create a new challenge.
