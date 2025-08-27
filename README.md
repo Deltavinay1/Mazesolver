@@ -2,7 +2,7 @@ Maze Solver
 This project is a web-based, interactive application that generates a random maze and visualizes different pathfinding algorithms as they solve it. It's a direct translation of an original C++ console application into a dynamic and visual experience using HTML, CSS, and JavaScript.
 
 🚀 View the Live Demo Here! 🚀
-(Remember to replace the link above with your actual GitHub Pages URL after you set it up!)
+https://deltavinay1.github.io/Mazesolver/
 
 ## Features
 Random Maze Generation: Creates a new, unique maze every time using a depth-first search (recursive backtracking) algorithm.
